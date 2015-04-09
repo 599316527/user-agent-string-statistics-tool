@@ -24,10 +24,11 @@ const LineByLineReader = require('line-by-line');
 var lr = new LineByLineReader(dataFileName);
 var result = {};
 
-var _resultTpl = {total: 0, version: {}};
-if (optional.engine) _resultTpl.engine = {};
-if (optional.device) _resultTpl.device = {};
-if (optional.os) _resultTpl.os = {};
+var _result = {total: 0, version: {}};
+if (optional.engine) _result.engine = {};
+if (optional.device) _result.device = {};
+if (optional.os) _result.os = {};
+var _resultTpl = JSON.stringify(_result);
 
 function perLine(line) {
     var ua = line.trim();
@@ -39,7 +40,7 @@ function perLine(line) {
     var ver = browser.version;
     var title = browser.name;
 
-    if (!result[title]) result[title] = _resultTpl;
+    if (!result[title]) result[title] = JSON.parse(_resultTpl);
     if (!result[title].version[ver]) result[title].version[ver] = 0;
     ++result[title].version[ver];
     ++result[title].total;
